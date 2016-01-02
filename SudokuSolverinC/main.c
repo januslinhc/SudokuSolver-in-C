@@ -25,6 +25,7 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     readFile(argv[1]);
-    printf("Hello, World!\n");
+    printf("🤖 Terminal \n");
+    freeAll();
     return 0;
 }

@@ -12,5 +12,6 @@
 
 void readFile(const char * path);
 void print();
+void freeAll();
 
 #endif /* SudokuSolver_h */

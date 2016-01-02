@@ -55,9 +55,9 @@ void readFile(const char * path){
             }
         }
     }
-    printf("closing file\n");
+    //printf("closing file\n");
     fclose(fp);
-    printf("closed file\n");
+    //printf("closed file\n");
     if (line)
         free(line);
     if(sizeof(sudoku_board)%2 !=0){
@@ -77,8 +77,6 @@ void readFile(const char * path){
     print();
     
     printf("This is a %d x %d Sudoku Puzzle! \n", sudoku_board_x_size, sudoku_board_y_size);
-    free(sudoku_board);
-    exit(EXIT_SUCCESS);
 }
 
 void print(){
@@ -102,4 +100,8 @@ void print(){
         printf("-");
     }
     printf("\n");
+}
+
+void freeAll(){
+    free(sudoku_board);
 }
