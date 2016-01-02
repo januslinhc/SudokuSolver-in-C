@@ -8,7 +8,6 @@
 
 #ifndef SudokuSolver_h
 #define SudokuSolver_h
-#define board
 #include <stdio.h>
 
 void readFile(const char * path);
