@@ -21,13 +21,15 @@ void readFile(const char * path){
     char * line = NULL;
     size_t len = 0;
     ssize_t read;
-    
-    fp = fopen(path, "r");
+
+    printf("try to open file\n");
+    fp = fopen(path, "rt");
     if (fp == NULL)
         exit(EXIT_FAILURE);
     
     sudoku_board = (char**)calloc(1, sizeof(char));
     
+    printf("reading from opened file\n");
     while ((read = getline(&line, &len, fp)) != -1) {
         char* token;
         char* string;
@@ -53,7 +55,9 @@ void readFile(const char * path){
             }
         }
     }
+    printf("closing file\n");
     fclose(fp);
+    printf("closed file\n");
     if (line)
         free(line);
     if(sizeof(sudoku_board)%2 !=0){
