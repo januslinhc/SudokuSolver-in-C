@@ -120,8 +120,6 @@ void intial_cvalue_tabel(){
         cvalue_table[a] = malloc(sizeof(int) * sudoku_board_x_size);
     }
     
-    cvalue_table[1][1] = 2;
-    printf("%d", cvalue_table[1][1]);
 }
 
 void get_cvalue(int x, int y){
