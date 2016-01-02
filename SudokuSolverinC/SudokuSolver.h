@@ -13,5 +13,7 @@
 void readFile(const char * path);
 void print();
 void freeAll();
+void intial_cvalue_tabel();
+void get_cvalue(int x, int y);
 
 #endif /* SudokuSolver_h */

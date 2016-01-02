@@ -25,6 +25,9 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     readFile(argv[1]);
+    
+    intial_cvalue_tabel();
+    
     printf("🤖 Terminal \n");
     freeAll();
     return 0;

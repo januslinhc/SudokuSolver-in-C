@@ -11,10 +11,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <math.h>
 
 char **sudoku_board;
 int sudoku_board_y_size = 0;
 int sudoku_board_x_size = 0;
+int sudoku_zone_width = 0;
+int sudoku_zone_height = 0;
+int **cvalue_table;
 
 void readFile(const char * path){
     FILE * fp;
@@ -64,7 +68,7 @@ void readFile(const char * path){
         printf("Input size error!");
         exit(1);
     }
-
+    
     for (int y = 0; y < sudoku_board_y_size; y++) {
         for (int x = 0; x < sudoku_board_x_size; x++) {
             if (!sudoku_board[y][x]){
@@ -74,6 +78,14 @@ void readFile(const char * path){
             //printf("%d-%d: %c \n", y, x, sudoku_board[y][x]);
         }
     }
+    int temp = sqrt(sudoku_board_x_size);
+    if (temp * temp == sudoku_board_x_size) {
+        sudoku_zone_width = sqrt(sudoku_board_x_size);
+        sudoku_zone_height = sqrt(sudoku_board_x_size);
+    }else{
+        sudoku_zone_width = sudoku_board_x_size / 2;
+        sudoku_zone_height = 2;
+    }
     print();
     
     printf("This is a %d x %d Sudoku Puzzle! 🎲 \n", sudoku_board_x_size, sudoku_board_y_size);
@@ -81,14 +93,14 @@ void readFile(const char * path){
 
 void print(){
     for (int y = 0; y < sudoku_board_y_size; y++) {
-        if (y % (sudoku_board_y_size / 2)== 0) {
+        if (y % (sudoku_zone_height)== 0) {
             for (int a = 0; a < (sudoku_board_x_size * 3 + 3); a++) {
                 printf("-");
             }
             printf("\n");
         }
         for (int x = 0; x < sudoku_board_x_size; x++) {
-            if (x % (sudoku_board_x_size / 2) == 0) {
+            if (x % (sudoku_zone_width) == 0) {
                 printf("|");
             }
             
@@ -100,6 +112,29 @@ void print(){
         printf("-");
     }
     printf("\n");
+}
+
+void intial_cvalue_tabel(){
+    cvalue_table = malloc(sizeof(int) * sudoku_board_y_size);
+    for (int a = 0; a < sudoku_board_y_size; a++) {
+        cvalue_table[a] = malloc(sizeof(int) * sudoku_board_x_size);
+    }
+    
+    cvalue_table[1][1] = 2;
+    printf("%d", cvalue_table[1][1]);
+}
+
+void get_cvalue(int x, int y){
+    int cvalue = 0;
+    int zone_x_start_at = 0;
+    int zone_x_end_at = 0;
+    int zone_y_start_at = 0;
+    int zone_y_end_at = 0;
+    
+    if (x <= sudoku_zone_width - 1) {
+        zone_x_end_at = 0;
+        
+    }
 }
 
 void freeAll(){
