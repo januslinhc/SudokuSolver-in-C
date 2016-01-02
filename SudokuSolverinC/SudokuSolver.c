@@ -22,14 +22,14 @@ void readFile(const char * path){
     size_t len = 0;
     ssize_t read;
 
-    printf("try to open file\n");
+    //printf("try to open file\n");
     fp = fopen(path, "rt");
     if (fp == NULL)
         exit(EXIT_FAILURE);
     
     sudoku_board = (char**)calloc(1, sizeof(char));
     
-    printf("reading from opened file\n");
+    //printf("reading from opened file\n");
     while ((read = getline(&line, &len, fp)) != -1) {
         char* token;
         char* string;
@@ -76,7 +76,7 @@ void readFile(const char * path){
     }
     print();
     
-    printf("This is a %d x %d Sudoku Puzzle! \n", sudoku_board_x_size, sudoku_board_y_size);
+    printf("This is a %d x %d Sudoku Puzzle! 🎲 \n", sudoku_board_x_size, sudoku_board_y_size);
 }
 
 void print(){
