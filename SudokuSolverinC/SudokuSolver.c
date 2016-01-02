@@ -71,7 +71,7 @@ void readFile(const char * path){
     
     for (int y = 0; y < sudoku_board_y_size; y++) {
         for (int x = 0; x < sudoku_board_x_size; x++) {
-            if (!sudoku_board[y][x]){
+            if (!(char**)sudoku_board[y][x]){
                 printf("Input size error!");
                 exit(1);
             }
@@ -120,6 +120,8 @@ void intial_cvalue_tabel(){
         cvalue_table[a] = malloc(sizeof(int) * sudoku_board_x_size);
     }
     
+    get_cvalue (0, 0);
+    
 }
 
 void get_cvalue(int x, int y){
@@ -128,6 +130,34 @@ void get_cvalue(int x, int y){
     int zone_x_end_at = 0;
     int zone_y_start_at = 0;
     int zone_y_end_at = 0;
+    
+    for (int xx = sudoku_zone_width; xx <= sudoku_board_x_size; xx += sudoku_zone_width) {
+        if (x < xx) {
+            zone_x_end_at = xx - 1;
+            zone_x_start_at = (xx - sudoku_zone_width);
+            break;
+        }
+    }
+    
+    for (int yy = sudoku_zone_height; yy <= sudoku_board_y_size; yy += sudoku_zone_height) {
+        if (y < yy) {
+            zone_y_end_at = yy - 1;
+            zone_y_start_at = (yy - sudoku_zone_height);
+            break;
+        }
+    }
+    
+    printf("Zone x = %d to %d\n", zone_x_start_at, zone_x_end_at);
+    printf("Zone y = %d to %d\n", zone_y_start_at, zone_y_end_at);
+    
+    for (int pointery = zone_y_start_at; pointery <= zone_y_end_at; pointery++) {
+        for (int pointerx = zone_x_start_at; pointerx <= zone_x_end_at; pointerx++) {
+            if (isdigit((char)sudoku_board[pointery][pointerx])!=0) {
+                cvalue++;
+            }
+        }
+    }
+    printf("cvalue = %d\n%c\n", cvalue, (char**)sudoku_board[1][0]);
     
     if (x <= sudoku_zone_width - 1) {
         zone_x_end_at = 0;
