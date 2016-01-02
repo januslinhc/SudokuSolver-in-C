@@ -71,7 +71,7 @@ void readFile(const char * path){
     
     for (int y = 0; y < sudoku_board_y_size; y++) {
         for (int x = 0; x < sudoku_board_x_size; x++) {
-            if (!(char**)sudoku_board[y][x]){
+            if (sudoku_board[y][x] == NULL){
                 printf("Input size error!");
                 exit(1);
             }
@@ -116,20 +116,58 @@ void print(){
 
 void intial_cvalue_tabel(){
     cvalue_table = malloc(sizeof(int) * sudoku_board_y_size);
-    for (int a = 0; a < sudoku_board_y_size; a++) {
-        cvalue_table[a] = malloc(sizeof(int) * sudoku_board_x_size);
+    int* tempblock;
+    tempblock = malloc(sudoku_board_y_size * sudoku_board_x_size * sizeof(int));
+    for (int i = 0; i < sudoku_board_y_size; i++) {
+        cvalue_table[i] = tempblock + (i * sudoku_board_x_size);
+    }
+    //for (int a = 0; a < sudoku_board_y_size; a++) {
+      //  cvalue_table[a] = malloc(sizeof(int) * sudoku_board_x_size);
+    //}
+    
+    for (int y = 0; y < sudoku_board_y_size; y++) {
+        for (int x = 0; x < sudoku_board_x_size; x++) {
+            cvalue_table[y][x] = get_cvalue (x, y);
+        }
     }
     
-    get_cvalue (0, 0);
-    
+    printf("This is value table: \n");
+    print_cvalue_table();
 }
 
-void get_cvalue(int x, int y){
+void print_cvalue_table(){
+    for (int y = 0; y < sudoku_board_y_size; y++) {
+        if (y % (sudoku_zone_height)== 0) {
+            for (int a = 0; a < (sudoku_board_x_size * 3 + 3); a++) {
+                printf("-");
+            }
+            printf("\n");
+        }
+        for (int x = 0; x < sudoku_board_x_size; x++) {
+            if (x % (sudoku_zone_width) == 0) {
+                printf("|");
+            }
+            
+            printf(" %d ", cvalue_table[y][x]);
+        }
+        printf("|\n");
+    }
+    for (int a = 0; a < (sudoku_board_x_size * 3 + 3); a++) {
+        printf("-");
+    }
+    printf("\n");
+}
+
+int get_cvalue(int x, int y){
     int cvalue = 0;
     int zone_x_start_at = 0;
     int zone_x_end_at = 0;
     int zone_y_start_at = 0;
     int zone_y_end_at = 0;
+    
+    if (isdigit(sudoku_board[y][x])==1) {
+        return -1;
+    }
     
     for (int xx = sudoku_zone_width; xx <= sudoku_board_x_size; xx += sudoku_zone_width) {
         if (x < xx) {
@@ -147,22 +185,44 @@ void get_cvalue(int x, int y){
         }
     }
     
-    printf("Zone x = %d to %d\n", zone_x_start_at, zone_x_end_at);
-    printf("Zone y = %d to %d\n", zone_y_start_at, zone_y_end_at);
-    
     for (int pointery = zone_y_start_at; pointery <= zone_y_end_at; pointery++) {
         for (int pointerx = zone_x_start_at; pointerx <= zone_x_end_at; pointerx++) {
-            if (isdigit((char)sudoku_board[pointery][pointerx])!=0) {
+            if (isdigit(sudoku_board[pointery][pointerx]) == 1) {
+                //printf("%d, %d \n", pointerx, pointery);
                 cvalue++;
             }
         }
     }
-    printf("cvalue = %d\n%c\n", cvalue, (char**)sudoku_board[1][0]);
     
-    if (x <= sudoku_zone_width - 1) {
-        zone_x_end_at = 0;
-        
+    for (int pointerx = 0; pointerx < zone_x_start_at; pointerx++) {
+        if (isdigit(sudoku_board[y][pointerx]) == 1) {
+            //printf("%d, %d \n", pointerx, y);
+            cvalue++;
+        }
     }
+    
+    for (int pointerx = zone_x_end_at + 1; pointerx < sudoku_board_x_size; pointerx++) {
+        if (isdigit(sudoku_board[y][pointerx]) == 1) {
+            //printf("%d, %d \n", pointerx, y);
+            cvalue++;
+        }
+    }
+    
+    for (int pointery = 0; pointery < zone_y_start_at; pointery++) {
+        if (isdigit(sudoku_board[pointery][x]) == 1) {
+            //printf("%d, %d \n", x, pointery);
+            cvalue++;
+        }
+    }
+    
+    for (int pointery = zone_y_end_at + 1; pointery < sudoku_board_y_size; pointery++) {
+        if (isdigit(sudoku_board[pointery][x]) == 1) {
+            //printf("%d, %d \n", x, pointery);
+            cvalue++;
+        }
+    }
+    //printf("cvalue = %d\n%c\n", cvalue, (char**)sudoku_board[1][0]);
+    return cvalue;
 }
 
 void freeAll(){
