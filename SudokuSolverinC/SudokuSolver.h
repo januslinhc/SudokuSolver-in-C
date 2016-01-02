@@ -11,5 +11,6 @@
 #include <stdio.h>
 
 void readFile(const char * path);
+void print();
 
 #endif /* SudokuSolver_h */

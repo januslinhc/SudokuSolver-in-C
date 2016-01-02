@@ -67,11 +67,35 @@ void readFile(const char * path){
                 printf("Input size error!");
                 exit(1);
             }
-            printf("%d-%d: %c \n", y, x, sudoku_board[y][x]);
+            //printf("%d-%d: %c \n", y, x, sudoku_board[y][x]);
         }
     }
+    print();
     
     printf("This is a %d x %d Sudoku Puzzle! \n", sudoku_board_x_size, sudoku_board_y_size);
     free(sudoku_board);
     exit(EXIT_SUCCESS);
+}
+
+void print(){
+    for (int y = 0; y < sudoku_board_y_size; y++) {
+        if (y % (sudoku_board_y_size / 2)== 0) {
+            for (int a = 0; a < (sudoku_board_x_size * 3 + 3); a++) {
+                printf("-");
+            }
+            printf("\n");
+        }
+        for (int x = 0; x < sudoku_board_x_size; x++) {
+            if (x % (sudoku_board_x_size / 2) == 0) {
+                printf("|");
+            }
+            
+            printf(" %c ", sudoku_board[y][x]);
+        }
+        printf("|\n");
+    }
+    for (int a = 0; a < (sudoku_board_x_size * 3 + 3); a++) {
+        printf("-");
+    }
+    printf("\n");
 }
