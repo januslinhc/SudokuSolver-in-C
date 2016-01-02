@@ -63,6 +63,10 @@ void readFile(const char * path){
 
     for (int y = 0; y < sudoku_board_y_size; y++) {
         for (int x = 0; x < sudoku_board_x_size; x++) {
+            if (!sudoku_board[y][x]){
+                printf("Input size error!");
+                exit(1);
+            }
             printf("%d-%d: %c \n", y, x, sudoku_board[y][x]);
         }
     }
